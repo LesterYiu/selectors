@@ -77,3 +77,63 @@ Dark Green - #1f2d2e
 Light Green - #234534
 Orange - #ED6B55
  */
+
+    .toggleLabel {
+        line-height:40px;
+        padding-right:100px;
+        margin: 15px 0;
+        position:relative;
+    }
+
+    .toggleLabel::before {
+        content: "";
+        /* content is necessary for this to appear. */
+        display: inline-block;
+        width: 80px;
+        height: 40px;
+        background-color: #1f2d2e;
+        position: absolute;
+        right: 0;
+        border-radius: 100px;
+        /* the parent of this is the .toggleLabel */
+        cursor:pointer;
+    }
+
+    .toggleLabel::after {
+        content: "";
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color:white;
+        position:absolute;
+        right: 45px;
+        top: 50%;
+        transform:translateY(-50%);
+        cursor:pointer;
+        /* clicking the ::after and ::before will still triggle the toggle because it is still apart of the label, by default, the label is also connected to the input */
+    }
+
+    input[type="checkbox"] {
+        position:absolute;
+        opacity: 0; 
+        /* We cannot use display:none since it needs to be present for screen readers. therefore we will hide it visually by taking it out of the page's flow and make it invisible with opacity 0 */
+    }
+
+    input[type="checkbox"]:checked + .toggleLabel::after {
+        right: 5px;
+        /* Affects the element directly after the first selector, thats why we changed it so we have checkbox first before the label
+        The adjacent sibling selector is used to select an element that is directly after another specific element. Sibling elements must have the same parent element, and "adjacent"means "immediately following". */
+        /* The reason why we need this is because we don't want all the toggle bars to activate, only the one directly after the checkbox */
+    }
+
+    input[type="checkbox"]:checked + .toggleLabel::before {
+        background-color:#ED6B55
+        /* this is personal custom */
+    }
+
+    /* input[type="checkbox"]:active + .toggleLabel::before,
+    input[type="checkbox"]:focus + .toggleLabel::before {
+        background-color:#ED6B55
+        this is the answer
+    } */
